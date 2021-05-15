@@ -1,8 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import FormField from './components/FormField/FormField';
 
 interface FormValues {
   name: string;
@@ -25,14 +26,18 @@ function App() {
   return (
     <div className="App">
       <h1>Register</h1>
-      <Formik initialValues={initialValues} onSubmit={forSubmit}>
-        {(props) => {
+      <Formik
+        initialValues={initialValues}
+        onSubmit={forSubmit}
+        validationSchema={registerSchema}
+      >
+        {({ dirty, isValid }) => {
           return (
             <Form>
-              <div>
-                <label>Name:</label>
-                <Field name="name" as="input" />
-              </div>
+              <FormField label="Name" name="name" />
+              <button disabled={!dirty || !isValid} type="submit">
+                Sign Up
+              </button>
             </Form>
           );
         }}
